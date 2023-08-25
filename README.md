@@ -1,14 +1,19 @@
-# typeformer
+### Intro
 
-This repo contains tooling to enable the conversion of the TypeScript repo
-to modules.
+First, do `npm i`. Then build the project by running `tsc -p .` in the root directory.
 
-To use, clone and `npm install` this repo, build it, then in a TypeScript repo, run:
+Then, from the UI-2 directory, run:
+```
+node ~/Projects/typeformer/dist/cli.js run --reset
+```
+### Other notes
 
-```sh
-$ node /path/to/typeformer
+To step through subprocesses via execa, pass in the options
+```
+--inspect-brk=7000
 ```
 
-To view its usage / subcommands.
-
-This package requires Node 14+, and has only been tested on Linux.
+Then in chrome:
+```
+devtools://devtools/bundled/inspector.html?experiments=true&v8only=true&ws=127.0.0.1:7000/2df21a01-44ff-40c4-b6ff-1f839f81f9d6
+```

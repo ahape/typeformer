@@ -369,8 +369,12 @@ export function stripNamespaces(project: Project): void {
         const simpleConfig = configFileSet.getConfig(associatedConfig);
         assert(simpleConfig);
 
+        /* TODO(ahape): removing because includes are implicit--not using `files`
         const { references: dependentPaths, files: filesList } = simpleConfig;
         assert(filesList);
+        */
+        const filesList = getTsSourceFiles(project).map(x => x.getFilePath());
+        const dependentPaths: StandardizedFilePath[] = [];
 
         dependentPaths?.forEach((requiredProjectPath) => {
             // Reexport namespace contributions of other projects listed in tsconfig,
@@ -674,8 +678,8 @@ export function stripNamespaces(project: Project): void {
     // Transform is run in TS repo root.
     const cwd = FileUtils.getStandardizedAbsolutePath(fs, process.cwd());
     const src = FileUtils.pathJoin(cwd, "src");
-    const local = FileUtils.pathJoin(cwd, "built", "local");
-    const localRelease = FileUtils.pathJoin(cwd, "built", "local", "release");
+    const local = FileUtils.pathJoin(cwd, "scripts", "build");
+    const localRelease = FileUtils.pathJoin(cwd, "scripts", "build");
 
     for (const sourceFile of getTsConfigs(project)) {
         sourceFile.forEachDescendant((node, traversal) => {
@@ -689,7 +693,7 @@ export function stripNamespaces(project: Project): void {
                     case "outFile":
                         traversal.skip();
                         node.set({
-                            name: '"outDir"',
+                            name: '"outFile"',
                             initializer: (writer) => {
                                 // e.g. /TypeScript/src/compiler
                                 const dir = sourceFile.getDirectoryPath();
@@ -708,7 +712,7 @@ export function stripNamespaces(project: Project): void {
                                 // e.g. ../../built/local/compiler
                                 // const outDir = FileUtils.pathJoin(relativeToBuilt, projectPath);
 
-                                writer.quote(relativeToBuilt);
+                                writer.quote(FileUtils.pathJoin(relativeToBuilt, "brightmetrics.js"));
                             },
                         });
                 }

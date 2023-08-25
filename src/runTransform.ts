@@ -27,15 +27,15 @@ export class RunTransformCommand extends Command {
             await run("git", "reset", "--hard", mergeBase); // Reset back to the merge base.
         }
 
-        await run("npm", "ci");
+        // await run("npm", "ci");
 
         await applyPatches(beforePatchesDir);
 
-        await run("npm", "ci");
+        // await run("npm", "ci");
 
         // Verify that we can process the code.
-        await generateDiagnostics();
-        await noopStep();
+        // await generateDiagnostics();
+        // await noopStep();
 
         await runMorph(
             "unindent",
@@ -78,9 +78,10 @@ and "ts.Symbol", we have just "Node" and "Symbol".
 
         await createGitBlameIgnoreRevs();
 
-        await applyPatches(afterPatchesDir);
+        // await applyPatches(afterPatchesDir);
+        console.log("Done");
 
-        await run("npm", "ci");
+        // await run("npm", "ci");
 
         // Make sure what we get back from our new diagnostics script still compiles.
         // Disabled for now, since the patches undo the "pre" patches that allow ts-morph
@@ -118,6 +119,7 @@ async function runAndCommit(message: string, fn: () => Promise<any>) {
 async function runMorph(name: string, description: string) {
     await runAndCommit(`Generated module conversion step - ${name}\n\n${description}`, async () => {
         const before = performance.now();
+        // await runNodeDebug(packageRoot, "morph", name);
         await runNode(packageRoot, "morph", name);
         console.log(`took ${prettyMs(performance.now() - before)}`);
     });

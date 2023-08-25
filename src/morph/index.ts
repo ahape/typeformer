@@ -28,7 +28,7 @@ export function runStep(stepName: string, check: boolean): number {
     log("loading project");
     const project = new Project({
         // Just for settings; we load the files below.
-        tsConfigFilePath: "src/tsconfig-base.json",
+        tsConfigFilePath: "tsconfig.json",
         skipAddingFilesFromTsConfig: true,
         manipulationSettings: {
             newLineKind: ts.NewLineKind.CarriageReturnLineFeed,

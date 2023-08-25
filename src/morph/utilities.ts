@@ -2,8 +2,8 @@ import { FileUtils, StandardizedFilePath } from "@ts-morph/common";
 import { formatSourceWithoutFile } from "format-imports";
 import { Project, SourceFile } from "ts-morph";
 
-const sourceFileGlobs = ["src/**/*.ts", "!**/*.d.ts"];
-const tsconfigGlob = "src/**/tsconfig*.json";
+const sourceFileGlobs = ["**/*.ts", "!**/*.d.ts"];
+const tsconfigGlob = "**/tsconfig*.json";
 
 export function addTsSourceFiles(project: Project) {
     project.addSourceFilesAtPaths(sourceFileGlobs);
