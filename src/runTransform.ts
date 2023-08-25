@@ -78,7 +78,8 @@ and "ts.Symbol", we have just "Node" and "Symbol".
 
         await createGitBlameIgnoreRevs();
 
-        // await applyPatches(afterPatchesDir);
+        await applyPatches(afterPatchesDir);
+
         console.log("Done");
 
         // await run("npm", "ci");
