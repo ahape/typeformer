@@ -55,7 +55,7 @@ export function cd(path: string) {
 }
 
 export async function getMergeBase(run: typeof runWithOutput | typeof runNoOutput) {
-    const { stdout } = await run("git", "merge-base", "--all", "HEAD", "main");
+    const { stdout } = await run("git", "merge-base", "--all", "HEAD", "development");
 
     const lines = stdout.trim().split(/\r?\n/);
     assert(lines.length === 1);
