@@ -124,7 +124,7 @@ async function runAndCommit(message: string, fn: () => Promise<any>) {
 async function runMorph(name: string, description: string) {
     await runAndCommit(`Generated module conversion step - ${name}\n\n${description}`, async () => {
         const before = performance.now();
-        if (name == "skipTypeCheckingJsTsFiles") {
+        if (false && name == "skipTypeCheckingJsTsFiles") {
           await runNodeDebug(packageRoot, "morph", name);
         } else {
           await runNode(packageRoot, "morph", name);
