@@ -13,6 +13,11 @@ export class MorphCommand extends Command {
     async execute() {
         // Do this lazily to avoid loading all of TS for every invocation of the tool.
         const morph = await import("./index.js");
+
+        if (this.name == "stripNamespaces") { // TODO Remove
+            return morph.runStep(this.name, false);
+        }
+
         return morph.runStep(this.name, this.check);
     }
 }

@@ -14,6 +14,9 @@ To step through subprocesses via execa, pass in the options
 ```
 
 Then in chrome:
+
+(First you might have to connect the debugger via `chrome://inspect`)
+
 ```
 devtools://devtools/bundled/inspector.html?experiments=true&v8only=true&ws=127.0.0.1:7000/2df21a01-44ff-40c4-b6ff-1f839f81f9d6
 ```

@@ -6,6 +6,7 @@ import { inlineImports } from "./inlineImports.js";
 import { stripNamespaces } from "./stripNamespaces.js";
 import { unindent } from "./unindent.js";
 import { addTsSourceFiles, indentLog, log } from "./utilities.js";
+import { skipTypeCheckingJsTsFiles } from "./skipTypeCheckingJsTsFiles.js";
 
 type Step = (project: Project) => void;
 
@@ -16,6 +17,7 @@ const steps = new Map<string, Step>([
     ["stripNamespaces", stripNamespaces],
     ["inlineImports", inlineImports],
     ["formatImports", formatImports],
+    ["skipTypeCheckingJsTsFiles", skipTypeCheckingJsTsFiles],
 ]);
 
 export function runStep(stepName: string, check: boolean): number {

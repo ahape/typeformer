@@ -4,7 +4,7 @@ import { globbySync } from "globby";
 import { performance } from "perf_hooks";
 import prettyMs from "pretty-ms";
 
-import { getMergeBase, runNode, runWithOutput as run } from "./exec.js";
+import { getMergeBase, runNode, runNodeDebug, runWithOutput as run } from "./exec.js";
 import { afterPatchesDir, beforePatchesDir, packageRoot } from "./utilities.js";
 
 export class RunTransformCommand extends Command {
@@ -67,6 +67,10 @@ imported in the newly module-ified files, making existing expressions like "ts."
         );
 
         await runMorph(
+            "skipTypeCheckingJsTsFiles",
+            "Adding statements to skip .js.ts file type checking");
+
+        await runMorph(
             "inlineImports",
             `
 This step converts as many explicit accesses as possible in favor of direct imports
@@ -120,8 +124,11 @@ async function runAndCommit(message: string, fn: () => Promise<any>) {
 async function runMorph(name: string, description: string) {
     await runAndCommit(`Generated module conversion step - ${name}\n\n${description}`, async () => {
         const before = performance.now();
-        // await runNodeDebug(packageRoot, "morph", name);
-        await runNode(packageRoot, "morph", name);
+        if (name == "skipTypeCheckingJsTsFiles") {
+          await runNodeDebug(packageRoot, "morph", name);
+        } else {
+          await runNode(packageRoot, "morph", name);
+        }
         console.log(`took ${prettyMs(performance.now() - before)}`);
     });
 }
