@@ -18,6 +18,10 @@ export class RunTransformCommand extends Command {
         description: "Reset the current branch to its merge base with main before running.",
     });
 
+    runDebug = Option.String("--debug", {
+        description: "Add --debug=<transformName> to run that transform in Node inspect",
+    });
+
     async execute() {
         if (this.reset) {
             await run("git", "restore", "--staged", "."); // Unstage all changes.
@@ -42,7 +46,8 @@ export class RunTransformCommand extends Command {
             `
 This step makes further commits look clearer by unindenting all
 of the top level namespaces preemptively.
-`
+`,
+            this.runDebug == "unindent"
         );
 
         await runMorph(
@@ -63,12 +68,15 @@ as needed.
 The namespaces are reconstructed as "barrel"-style modules, which are identical
 to the old namespace objects in structure. These reconstructed namespaces are then
 imported in the newly module-ified files, making existing expressions like "ts." valid.
-`
+`,
+            this.runDebug == "stripNamespaces"
         );
 
         await runMorph(
             "skipTypeCheckingJsTsFiles",
-            "Adding statements to skip .js.ts file type checking");
+            "Adding statements to skip .js.ts file type checking",
+            this.runDebug == "skipTypeCheckingJsTsFiles"
+        );
 
         await runMorph(
             "inlineImports",
@@ -77,7 +85,8 @@ This step converts as many explicit accesses as possible in favor of direct impo
 from the modules in which things were declared. This restores the code (as much as possible)
 back to how it looked originally before the explicitify step, e.g. instead of "ts.Node"
 and "ts.Symbol", we have just "Node" and "Symbol".
-`
+`,
+            this.runDebug === "inlineImports"
         );
 
         await createGitBlameIgnoreRevs();
@@ -121,13 +130,13 @@ async function runAndCommit(message: string, fn: () => Promise<any>) {
     await run("git", "commit", "--quiet", "-m", reformatParagraphs(message));
 }
 
-async function runMorph(name: string, description: string) {
+async function runMorph(name: string, description: string, debug: boolean = false) {
     await runAndCommit(`Generated module conversion step - ${name}\n\n${description}`, async () => {
         const before = performance.now();
-        if (false && name == "skipTypeCheckingJsTsFiles") {
-          await runNodeDebug(packageRoot, "morph", name);
+        if (debug) {
+            await runNodeDebug(packageRoot, "morph", name);
         } else {
-          await runNode(packageRoot, "morph", name);
+            await runNode(packageRoot, "morph", name);
         }
         console.log(`took ${prettyMs(performance.now() - before)}`);
     });

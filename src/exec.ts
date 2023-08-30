@@ -24,12 +24,11 @@ export function runNode(scriptPath: string, ...args: string[]) {
 
 export function runNodeDebug(scriptPath: string, ...args: string[]) {
     printCommand("node", [scriptPath, ...args]);
-    return runAndPipeOutput(execaNode(scriptPath, args, {
-      nodeOptions: [
-        "--inspect=7000",
-        "--inspect-brk",
-      ]
-    }));
+    return runAndPipeOutput(
+        execaNode(scriptPath, args, {
+            nodeOptions: ["--inspect=7000", "--inspect-brk"],
+        })
+    );
 }
 
 async function runAndPipeOutput<T>(subprocess: ExecaChildProcess<T>) {

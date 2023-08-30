@@ -1,15 +1,11 @@
 import * as tsMorph from "ts-morph";
-import {
-    getTsSourceFiles,
-    log,
-} from "./utilities.js";
+import { getTsSourceFiles, log } from "./utilities.js";
 
 export function skipTypeCheckingJsTsFiles(project: tsMorph.Project): void {
     log("enumerating .js.ts files and adding @ts-nocheck statements");
 
     for (let sourceFile of getTsJsFilePaths(project)) {
-        const pragmas = sourceFile.getStatementsWithComments()
-            .filter(s => s.getKind() === 2 /*pragma*/);
+        const pragmas = sourceFile.getStatementsWithComments().filter((s) => s.getKind() === 2 /*pragma*/);
         // Remove all pre-existing pragmas since they are artifacts this
         // point in the transformation process.
         let changed = false;
@@ -35,6 +31,6 @@ export function skipTypeCheckingJsTsFiles(project: tsMorph.Project): void {
     }
 
     function getTsJsFilePaths(project: tsMorph.Project) {
-        return getTsSourceFiles(project).filter(f => f.getFilePath().endsWith(".js.ts"));
+        return getTsSourceFiles(project).filter((f) => f.getFilePath().endsWith(".js.ts"));
     }
 }

@@ -139,7 +139,7 @@ function createNamespaceFileSet(fs: FileSystemHost, projectRootMapper: ProjectRo
         const sourceFilePath = sourceFile.getFilePath();
         const configFilePath = projectRootMapper.getTsConfigPath(sourceFilePath);
         const projRootDir = FileUtils.getDirPath(configFilePath);
-        const namespacesRoot = FileUtils.pathJoin(projRootDir, namespacesDirName);
+        const namespacesRoot = FileUtils.pathJoin(adjustToPreferredPath(projRootDir), namespacesDirName);
 
         // Shouldn't be required, but if we don't have a real directory on disk, we fail
         // to perform the walk to add the tsconfigs to the project later.
@@ -217,6 +217,10 @@ function createConfigFileSet(fs: FileSystemHost, projectRootMapper: ProjectRootM
         },
         getConfig: configs.get.bind(configs),
     };
+}
+
+function adjustToPreferredPath(path: StandardizedFilePath): StandardizedFilePath {
+    return FileUtils.pathJoin(path, "scripts/modules");
 }
 
 export function stripNamespaces(project: Project): void {
@@ -373,14 +377,14 @@ export function stripNamespaces(project: Project): void {
         const { references: dependentPaths, files: filesList } = simpleConfig;
         assert(filesList);
         */
-        const filesList = getTsSourceFiles(project).map(x => x.getFilePath());
+        const filesList = getTsSourceFiles(project).map((x) => x.getFilePath());
         const dependentPaths: StandardizedFilePath[] = [];
 
         dependentPaths?.forEach((requiredProjectPath) => {
             // Reexport namespace contributions of other projects listed in tsconfig,
             // e.g., in services, export everything from compiler too.
             const nsFileName = FileUtils.pathJoin(
-                requiredProjectPath,
+                adjustToPreferredPath(requiredProjectPath),
                 namespacesDirName,
                 FileUtils.getBaseName(filename)
             );
@@ -644,14 +648,14 @@ export function stripNamespaces(project: Project): void {
             continue;
         }
 
-        const configFilePath = projectRootMapper.getTsConfigPath(sourceFile.getFilePath());
-        const projRootDir = FileUtils.getDirPath(configFilePath);
+        const configForFile = projectRootMapper.getTsConfigPath(sourceFile.getFilePath());
+        const projRootDir = FileUtils.getDirPath(configForFile);
 
         const imports: OptionalKind<ImportDeclarationStructure>[] = [];
         referenced.forEach((ns) => {
             const nsFilePath = getTsStyleRelativePath(
                 sourceFile.getFilePath(),
-                FileUtils.pathJoin(projRootDir, namespacesDirName, ns)
+                FileUtils.pathJoin(adjustToPreferredPath(projRootDir), namespacesDirName, ns)
             );
             imports.push({
                 namespaceImport: ns,
