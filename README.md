@@ -26,7 +26,12 @@ devtools://devtools/bundled/inspector.html?experiments=true&v8only=true&ws=127.0
 
 TODO
 ---
-- Export all necessary things from JS.TS modules
-- Fix all the little crap like bad references, etc.
+- [x] Export all necessary things from JS.TS modules
+- [x] Fix all the little crap like bad references, etc.
+- [ ] Make it easier to add things to patches-before and re-run typeformer
+- [ ] Figure out global exporting
+- [ ] esbuild?
+- [ ] Make work with bugsnag branch?
+- [ ] Maybe don't use barrel-style modules?
 
 Then we _should_ be rid of all forms of `Brightmetrics` (aside from HTML ko binding references and aspx.cs references)
