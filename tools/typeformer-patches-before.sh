@@ -1,2 +1,6 @@
 #!/bin/bash
-/opt/homebrew/bin/node /Users/alanhape/Projects/typeformer/dist/cli.js save-patches --before
+
+NODE=/opt/homebrew/bin/node
+TYPEFORMER=/Users/alanhape/Projects/typeformer
+
+$NODE $TYPEFORMER/dist/cli.js save-patches --before
