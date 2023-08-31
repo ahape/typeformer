@@ -31,14 +31,65 @@ Then in chrome:
 devtools://devtools/bundled/inspector.html?experiments=true&v8only=true&ws=127.0.0.1:7000/2df21a01-44ff-40c4-b6ff-1f839f81f9d6
 ```
 
+esbuild file that works:
+
+```js
+import * as esbuild from "../../../build/node_modules/esbuild/lib/main.js";
+
+await esbuild.build({
+    entryPoints: ["scripts/modules/_namespaces/Brightmetrics.ts"],
+    bundle: true,
+    target: "es2017",
+    format: "iife",
+    globalName: "Brightmetrics",
+    outfile: "scripts/build/brightmetrics.js",
+});
+```
+
+current esbuild warnings:
+
+```
+▲ [WARNING] Use "scripts/modules/ts/Brightmetrics/Reports/Enums/reportfieldtype.ts" instead of "scripts/modules/ts/Brightmetrics/Reports/Enums/ReportFieldType.ts" to avoid issues with case-sensitive file systems [different-path-case]
+
+    scripts/modules/_namespaces/Brightmetrics.Reports.Enums.ts:9:14:
+      9 │ export * from "../ts/Brightmetrics/Reports/Enums/ReportFieldType";
+        ╵               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+▲ [WARNING] Use "scripts/modules/ts/Brightmetrics/Reports/Enums/reporttype.ts" instead of "scripts/modules/ts/Brightmetrics/Reports/Enums/ReportType.ts" to avoid issues with case-sensitive file systems [different-path-case]
+
+    scripts/modules/_namespaces/Brightmetrics.Reports.Enums.ts:12:14:
+      12 │ export * from "../ts/Brightmetrics/Reports/Enums/ReportType";
+         ╵               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+▲ [WARNING] Use "scripts/modules/ts/Brightmetrics/PrintPreview/Enums/ReportType.ts" instead of "scripts/modules/ts/Brightmetrics/PrintPreview/Enums/reporttype.ts" to avoid issues with case-sensitive file systems [different-path-case]
+
+    scripts/modules/_namespaces/Brightmetrics.PrintPreview.Enums.ts:3:14:
+      3 │ export * from "../ts/Brightmetrics/PrintPreview/Enums/reporttype";
+        ╵               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+▲ [WARNING] Using direct eval with a bundler is not recommended and may cause problems [direct-eval]
+
+    scripts/modules/ts/Brightmetrics/Admin/DataCustomization/Classes/expressionvalidator.ts:168:34:
+      168 │                 if (!isRealNumber(eval(expression))) {
+          ╵                                   ~~~~
+
+  You can read more about direct eval and bundling here: https://esbuild.github.io/link/direct-eval
+
+▲ [WARNING] Using direct eval with a bundler is not recommended and may cause problems [direct-eval]
+
+    scripts/modules/ts/Brightmetrics/Insights/Scorecards/ViewModels/cell.ts:39:11:
+      39 │     return eval(calc.replace(/{(\w+)}/g, () => String(args.shift() ?? 0)));
+         ╵            ~~~~
+```
+
 ## TODO
 
 -   [x] Export all necessary things from JS.TS modules
 -   [x] Fix all the little crap like bad references, etc.
--   [ ] Make it easier to add things to patches-before and re-run typeformer
--   [ ] Figure out global exporting
--   [ ] esbuild?
--   [ ] Make work with bugsnag branch?
--   [ ] Maybe don't use barrel-style modules?
+-   [x] Make it easier to add things to patches-before and re-run typeformer
+-   [x] Figure out global exporting
+-   [x] esbuild
+-   [ ] Fix esbuild warnings + have before-patch fix errors (flowgrid)
+-   [ ] Organize imports so that stuff doesn't break at runtime
 
 Then we _should_ be rid of all forms of `Brightmetrics` (aside from HTML ko binding references and aspx.cs references)
