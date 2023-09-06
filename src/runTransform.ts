@@ -147,16 +147,19 @@ async function noopStep() {
 }
 
 async function applyPatches(patchDir: string) {
-    // Regenerate patches by running `save-patches`.
-    await run(
-        "git",
-        "am",
-        "--3way",
-        "--whitespace=nowarn",
-        "--quoted-cr=nowarn",
-        "--keep-cr",
-        ...globbySync(`${patchDir}/*.patch`) // git am doesn't accept a regular directory, only a "Maildir" (which is something different)
-    );
+    const files = await fs.promises.readdir(patchDir);
+    if (files?.length > 0) {
+        // Regenerate patches by running `save-patches`.
+        await run(
+            "git",
+            "am",
+            "--3way",
+            "--whitespace=nowarn",
+            "--quoted-cr=nowarn",
+            "--keep-cr",
+            ...globbySync(`${patchDir}/*.patch`) // git am doesn't accept a regular directory, only a "Maildir" (which is something different)
+        );
+    }
 }
 
 async function createGitBlameIgnoreRevs() {
