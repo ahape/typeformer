@@ -32,6 +32,7 @@ function isInternalDeclaration(node: Node, sourceFile: SourceFile): boolean {
 }
 
 type NamespaceNameParts = string[];
+type ExportImportStructure = (ExportDeclarationStructure | ImportDeclarationStructure);
 
 function namespacePartsToFilename(parts: NamespaceNameParts): string {
     assert(parts.length > 0);
@@ -223,6 +224,49 @@ function adjustToPreferredPath(path: StandardizedFilePath): StandardizedFilePath
     return FileUtils.pathJoin(path, "scripts/modules");
 }
 
+const fileWithPrecedence = [
+    "../ts/Brightmetrics/viewmodel",
+    "../ts/Brightmetrics/weakmap",
+    "../ts/Brightmetrics/pubsub",
+    "./Brightmetrics.Utils",
+    "../ts/Brightmetrics/utils",
+    "../ts/Brightmetrics/ViewModels/pagebase",
+    "../ts/Brightmetrics/ViewModels/dialog",
+    "../ts/Brightmetrics/ViewModels/pill",
+    "../ts/Brightmetrics/ViewModels/navdialogbase",
+    "../ts/Brightmetrics/Admin/ViewModels/ssopageview",
+    "../ts/Brightmetrics/Admin/ViewModels/ssoprovider",
+    "../ts/Brightmetrics/Admin/VoiceAnalytics/ViewModels/tagcategoryactiondialogbase",
+    "../ts/Brightmetrics/C2G/ViewModels/c2gcharttimeblockbase",
+    "../ts/Brightmetrics/Dashboard/hcchartrenderer",
+    "../ts/Brightmetrics/Testing/intercept",
+    "../ts/Brightmetrics/VARPortal/CustomerSetup/Classes/stephandlerbase",
+];
+
+function exportSorter(a: ExportImportStructure, b: ExportImportStructure): number {
+    let ai = 100;
+    let bi = 100;
+    if (a.moduleSpecifier) {
+        ai = fileWithPrecedence.indexOf(a.moduleSpecifier);
+        if (a.moduleSpecifier.endsWith(".js")) {
+            ai += 1000;
+        }
+    }
+    if (b.moduleSpecifier) {
+        bi = fileWithPrecedence.indexOf(b.moduleSpecifier);
+        if (b.moduleSpecifier.endsWith(".js")) {
+            bi += 1000;
+        }
+    }
+    if (ai === -1) {
+        ai += 100;
+    }
+    if (bi === -1) {
+        bi += 100;
+    }
+    return ai - bi;
+}
+
 export function stripNamespaces(project: Project): void {
     const fs = project.getFileSystem();
     // Tracks which namespaces each source file uses.
@@ -366,7 +410,7 @@ export function stripNamespaces(project: Project): void {
 
     log("creating files for fake namespaces");
     newNamespaceFiles.forEach((reexports, filename) => {
-        const statements: (ExportDeclarationStructure | ImportDeclarationStructure)[] = [];
+        const statements: ExportImportStructure[] = [];
         const associatedConfig = newNamespaceFiles.findAssociatedConfig(filename);
 
         // TODO(jakebailey): Use ordering from references list in tsconfig.json
@@ -445,6 +489,8 @@ export function stripNamespaces(project: Project): void {
         });
 
         assert(statements.length > 0, `${filename} is empty`);
+
+        statements.sort(exportSorter);
 
         const structure: SourceFileStructure = {
             kind: StructureKind.SourceFile,
