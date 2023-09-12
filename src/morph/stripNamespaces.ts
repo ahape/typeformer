@@ -32,7 +32,7 @@ function isInternalDeclaration(node: Node, sourceFile: SourceFile): boolean {
 }
 
 type NamespaceNameParts = string[];
-type ExportImportStructure = (ExportDeclarationStructure | ImportDeclarationStructure);
+type ExportImportStructure = ExportDeclarationStructure | ImportDeclarationStructure;
 
 function namespacePartsToFilename(parts: NamespaceNameParts): string {
     assert(parts.length > 0);
