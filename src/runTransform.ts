@@ -4,7 +4,7 @@ import { globbySync } from "globby";
 import { performance } from "perf_hooks";
 import prettyMs from "pretty-ms";
 
-import { getMergeBase, runNode, runNodeDebug, runWithOutput as run } from "./exec.js";
+import { getMergeBase, runNode, runNodeDebug, cd, runWithOutput as run } from "./exec.js";
 import { afterPatchesDir, beforePatchesDir, packageRoot, targetProjectPackageRoot } from "./utilities.js";
 
 export class RunTransformCommand extends Command {
@@ -26,7 +26,7 @@ export class RunTransformCommand extends Command {
         if (this.reset) {
             await run("git", "restore", "--staged", "."); // Unstage all changes.
             await run("git", "restore", "."); // Undo all changes.
-            await run("git", "clean", "-fd"); // Remove any potentially new files.
+            await run("git", "clean", "-fdx"); // Remove any potentially new files.
             const mergeBase = await getMergeBase(run);
             await run("git", "reset", "--hard", mergeBase); // Reset back to the merge base.
         }
@@ -113,10 +113,10 @@ async function generateDiagnostics() {
 }
 
 async function runNpmInstall() {
-    await run("git", "clean", "-fdx");
-    await run("npm", "install", "--no-package-lock", targetProjectPackageRoot);
-    await run("mv", "-f", "node_modules", targetProjectPackageRoot + "/node_modules");
-    await run("rm", "package.json");
+    const pwd = await run("pwd");
+    cd(targetProjectPackageRoot);
+    await run("npm", "install", "--no-package-lock");
+    cd(pwd.stdout);
 }
 
 async function saveSuccessfulRunResults() {

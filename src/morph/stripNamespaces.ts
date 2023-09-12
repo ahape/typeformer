@@ -224,6 +224,9 @@ function adjustToPreferredPath(path: StandardizedFilePath): StandardizedFilePath
     return FileUtils.pathJoin(path, "scripts/modules");
 }
 
+// When building with esbuild, it's not smart enough (or I'm not smart enough)
+// to organize exports correctly. This list is just an ongoing hack to ensure
+// these modules get loaded first.
 const fileWithPrecedence = [
     "../ts/Brightmetrics/viewmodel",
     "../ts/Brightmetrics/weakmap",
@@ -249,12 +252,14 @@ function exportSorter(a: ExportImportStructure, b: ExportImportStructure): numbe
     if (a.moduleSpecifier) {
         ai = fileWithPrecedence.indexOf(a.moduleSpecifier);
         if (a.moduleSpecifier.endsWith(".js")) {
+            // JS files need to load last because they are complete chaos
             ai += 1000;
         }
     }
     if (b.moduleSpecifier) {
         bi = fileWithPrecedence.indexOf(b.moduleSpecifier);
         if (b.moduleSpecifier.endsWith(".js")) {
+            // JS files need to load last because they are complete chaos
             bi += 1000;
         }
     }
