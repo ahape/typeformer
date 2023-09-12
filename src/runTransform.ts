@@ -5,7 +5,7 @@ import { performance } from "perf_hooks";
 import prettyMs from "pretty-ms";
 
 import { getMergeBase, runNode, runNodeDebug, runWithOutput as run } from "./exec.js";
-import { afterPatchesDir, beforePatchesDir, packageRoot } from "./utilities.js";
+import { afterPatchesDir, beforePatchesDir, packageRoot, targetProjectPackageRoot } from "./utilities.js";
 
 export class RunTransformCommand extends Command {
     static paths = [["run"], ["run-transform"]];
@@ -31,11 +31,11 @@ export class RunTransformCommand extends Command {
             await run("git", "reset", "--hard", mergeBase); // Reset back to the merge base.
         }
 
-        // await run("npm", "ci");
+        await runNpmInstall();
 
         await applyPatches(beforePatchesDir);
 
-        // await run("npm", "ci");
+        await runNpmInstall();
 
         // Verify that we can process the code.
         // await generateDiagnostics();
@@ -93,9 +93,11 @@ and "ts.Symbol", we have just "Node" and "Symbol".
 
         await applyPatches(afterPatchesDir);
 
-        console.log("Done");
+        await runNpmInstall();
 
-        // await run("npm", "ci");
+        await saveSuccessfulRunResults();
+
+        console.log("All done!");
 
         // Make sure what we get back from our new diagnostics script still compiles.
         // Disabled for now, since the patches undo the "pre" patches that allow ts-morph
@@ -108,6 +110,17 @@ and "ts.Symbol", we have just "Node" and "Symbol".
 async function generateDiagnostics() {
     await run("rm", "-f", "src/compiler/diagnosticInformationMap.generated.ts");
     await run("npx", "gulp", "generate-diagnostics");
+}
+
+async function runNpmInstall() {
+    await run("git", "clean", "-fdx");
+    await run("npm", "install", "--no-package-lock", targetProjectPackageRoot);
+    await run("mv", "-f", "node_modules", targetProjectPackageRoot + "/node_modules");
+    await run("rm", "package.json");
+}
+
+async function saveSuccessfulRunResults() {
+    await run("git", "branch", "typeformer-run-backup-" + new Date().toJSON().replace(/\D/g, ""));
 }
 
 function reformatParagraphs(s: string) {

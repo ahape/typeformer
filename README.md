@@ -89,7 +89,44 @@ current esbuild warnings:
 -   [x] Make it easier to add things to patches-before and re-run typeformer
 -   [x] Figure out global exporting
 -   [x] esbuild
--   [ ] Fix esbuild warnings + have before-patch fix errors (flowgrid)
--   [ ] Organize imports so that stuff doesn't break at runtime
+-   [x] Fix esbuild warnings + have before-patch fix errors (flowgrid)
+-   [x] Organize imports so that stuff doesn't break at runtime
 
 Then we _should_ be rid of all forms of `Brightmetrics` (aside from HTML ko binding references and aspx.cs references)
+
+So far...
+
+```
+BEFORE MIGRATION:
+Files:              704
+Lines:           182240
+Identifiers:     276766
+Symbols:         298940
+Types:           131108
+Instantiations:  290086
+Memory used:    517022K
+I/O read:         0.02s
+I/O write:        0.02s
+Parse time:       0.45s
+Bind time:        0.25s
+Check time:       1.96s
+Emit time:        0.82s
+Total time:       3.48s
+
+AFTER MIGRATION:
+Files:              821
+Lines:           174160
+Identifiers:     267835
+Symbols:         282794
+Types:           124382
+Instantiations:  282895
+Memory used:    392471K
+I/O read:         0.02s
+I/O write:        0.00s
+Parse time:       0.55s
+Bind time:        0.22s
+Check time:       1.93s
+Emit time:        0.00s
+Total time:       2.71s
+```
+
