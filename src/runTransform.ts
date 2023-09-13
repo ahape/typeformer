@@ -91,6 +91,8 @@ and "ts.Symbol", we have just "Node" and "Symbol".
 
         await createGitBlameIgnoreRevs();
 
+        await run("git", "tag", "-f", "transform-done");
+
         await applyPatches(afterPatchesDir);
 
         await runNpmInstall();

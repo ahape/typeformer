@@ -35,7 +35,7 @@ export class SavePatchesCommand extends Command {
                 "--no-numbered",
                 "--no-base",
                 "--zero-commit",
-                `${mergeBase}..:/!-Generated module conversion step`
+                `${mergeBase}..`
             );
         }
 
@@ -53,7 +53,7 @@ export class SavePatchesCommand extends Command {
                 "--no-numbered",
                 "--no-base",
                 "--zero-commit",
-                "HEAD^{/Generated module conversion step}"
+                "transform-done"
             );
         }
     }
