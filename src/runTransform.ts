@@ -89,6 +89,8 @@ and "ts.Symbol", we have just "Node" and "Symbol".
             this.runDebug === "inlineImports"
         );
 
+        await runMorph("stripNoise", "test", this.runDebug == "stripNoise");
+
         await createGitBlameIgnoreRevs();
 
         await run("git", "tag", "-f", "transform-done");
