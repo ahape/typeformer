@@ -119,7 +119,7 @@ async function generateDiagnostics() {
 async function runNpmInstall() {
     const pwd = await run("pwd");
     cd(targetProjectPackageRoot);
-    await run("npm", "install", "--no-package-lock");
+    await run("npm", "install", "--silent", "--no-package-lock");
     cd(pwd.stdout);
 }
 
