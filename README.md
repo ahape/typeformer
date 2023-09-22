@@ -55,9 +55,10 @@ await esbuild.build({
 -   [x] esbuild
 -   [x] Fix esbuild warnings + have before-patch fix errors (flowgrid)
 -   [x] Organize imports so that stuff doesn't break at runtime
--   [ ] Base from enhancements/bugsnag
--   [ ] Get working with TSLint
--   [ ] Clean up comments and excess
+-   [x] Base from enhancements/bugsnag
+-   [x] Get working with TSLint
+-   [x] Clean up comments and excess
+-   [x] Update npm modules
 -   [ ] Consolidate globals to one file
 -   [ ] Update msbuild
 -   [ ] Create github action?

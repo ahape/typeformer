@@ -19,8 +19,7 @@ export function stripNoise(project: tsMorph.Project): void {
 
     for (let sourceFile of getFilePaths(project)) {
         const filePath = sourceFile.getFilePath();
-        const comments = sourceFile.getStatementsWithComments()
-            .filter((s) => noiseSyntaxKinds.includes(s.getKind()));
+        const comments = sourceFile.getStatementsWithComments().filter((s) => noiseSyntaxKinds.includes(s.getKind()));
 
         let changed = false;
         for (const comment of comments) {

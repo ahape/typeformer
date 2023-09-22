@@ -4,7 +4,7 @@ import { globbySync } from "globby";
 import { performance } from "perf_hooks";
 import prettyMs from "pretty-ms";
 
-import { getMergeBase, runNode, runNodeDebug, cd, runWithOutput as run } from "./exec.js";
+import { getMergeBase, runNode, runNodeDebug, cd, runWithOutput as run, runHidden } from "./exec.js";
 import { afterPatchesDir, beforePatchesDir, packageRoot, targetProjectPackageRoot } from "./utilities.js";
 
 export class RunTransformCommand extends Command {
@@ -89,7 +89,7 @@ and "ts.Symbol", we have just "Node" and "Symbol".
             this.runDebug === "inlineImports"
         );
 
-        await runMorph("stripNoise", "test", this.runDebug == "stripNoise");
+        await runMorph("stripNoise", "Removing noisy comments and stuff", this.runDebug == "stripNoise");
 
         await createGitBlameIgnoreRevs();
 
@@ -117,10 +117,10 @@ async function generateDiagnostics() {
 }
 
 async function runNpmInstall() {
-    const pwd = await run("pwd");
-    cd(targetProjectPackageRoot);
+    const pwd = await runHidden("pwd");
+    runHidden("cd", targetProjectPackageRoot);
     await run("npm", "install", "--silent", "--no-package-lock");
-    cd(pwd.stdout);
+    runHidden("cd", pwd.stdout);
 }
 
 async function saveSuccessfulRunResults() {
