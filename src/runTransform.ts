@@ -4,7 +4,15 @@ import { globbySync } from "globby";
 import { performance } from "perf_hooks";
 import prettyMs from "pretty-ms";
 
-import { getMergeBase, runNode, runNodeDebug, cd, runWithOutput as run, runHidden } from "./exec.js";
+import {
+    getMergeBase,
+    runNode,
+    runNodeDebug,
+    cd,
+    runWithOutput as run,
+    runHidden,
+    runHiddenWithOutput,
+} from "./exec.js";
 import { afterPatchesDir, beforePatchesDir, packageRoot, targetProjectPackageRoot } from "./utilities.js";
 
 export class RunTransformCommand extends Command {
@@ -117,10 +125,10 @@ async function generateDiagnostics() {
 }
 
 async function runNpmInstall() {
-    const pwd = await runHidden("pwd");
-    runHidden("cd", targetProjectPackageRoot);
+    const pwd = await runHiddenWithOutput("pwd");
+    cd(targetProjectPackageRoot);
     await run("npm", "install", "--silent", "--no-package-lock");
-    runHidden("cd", pwd.stdout);
+    cd(pwd.stdout);
 }
 
 async function saveSuccessfulRunResults() {

@@ -1,48 +1,36 @@
 import * as tsMorph from "ts-morph";
 import { getTsSourceFiles, log } from "./utilities.js";
 
-const noiseSyntaxKinds: tsMorph.SyntaxKind[] = [
-    tsMorph.SyntaxKind.SingleLineCommentTrivia,
-    tsMorph.SyntaxKind.MultiLineCommentTrivia,
-];
-
 const noisyThings: Array<[string, string]> = [
-    ["tslint:disable:object-literal-sort-keys", "%"],
-    ["tslint:disable:no-reference", "%"],
-    ["tslint:disable:max-classes-per-file", "%"],
+    ["tslint", "%"],
     ["<reference path=", ".js.ts"],
     ["jshint", "%"],
 ];
 
 export function stripNoise(project: tsMorph.Project): void {
-    log("removing noise from files (outdated pragmas, etc.)");
+    log("removing dead comments (tslint rules, etc)");
 
     for (let sourceFile of getFilePaths(project)) {
         const filePath = sourceFile.getFilePath();
-        const comments = sourceFile.getStatementsWithComments().filter((s) => noiseSyntaxKinds.includes(s.getKind()));
-
+        const statements = [
+            ...sourceFile.getDescendantsOfKind(tsMorph.ts.SyntaxKind.SingleLineCommentTrivia),
+            ...sourceFile.getDescendantsOfKind(tsMorph.ts.SyntaxKind.MultiLineCommentTrivia),
+        ] as tsMorph.Statement[];
         let changed = false;
-        for (const comment of comments) {
-            if (evaluateComment(comment, <string>filePath)) {
-                changed = true;
-                const statements = sourceFile.getStatementsWithComments();
-                sourceFile = sourceFile.removeStatement(statements.indexOf(comment));
+
+        statements.forEach((statement) => {
+            const text = statement.getText();
+            for (const [rule, exclude] of noisyThings) {
+                if (text.indexOf(rule) !== -1 && !filePath.endsWith(exclude)) {
+                    statement.remove();
+                    changed = true;
+                }
             }
-        }
+        });
 
         if (changed) {
             sourceFile.saveSync();
         }
-    }
-
-    function evaluateComment(statement: tsMorph.Statement<tsMorph.ts.Statement>, filePath: string): boolean {
-        const text = statement.getText();
-        for (const [rule, exclude] of noisyThings) {
-            if (text.indexOf(rule) !== -1 && !filePath.endsWith(exclude)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     function getFilePaths(project: tsMorph.Project) {

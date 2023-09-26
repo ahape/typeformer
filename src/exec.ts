@@ -17,6 +17,10 @@ export function runHidden(cmd: string, ...args: string[]) {
     return execa(cmd, args);
 }
 
+export function runHiddenWithOutput(cmd: string, ...args: string[]) {
+    return runAndPipeOutput(execa(cmd, args));
+}
+
 export function runNode(scriptPath: string, ...args: string[]) {
     printCommand("node", [scriptPath, ...args]);
     return runAndPipeOutput(execaNode(scriptPath, args));
