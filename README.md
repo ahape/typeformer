@@ -46,6 +46,13 @@ await esbuild.build({
 });
 ```
 
+Running eslint:
+
+```sh
+cd build
+npx eslint -c .eslintrc.js ../BrightMetricsWeb/BrightMetricsWeb.BrightMetricsWebUI/UI-2/scripts/modules/ts/Brightmetrics/**/*.ts
+```
+
 ## TODO
 
 -   [x] Export all necessary things from JS.TS modules
