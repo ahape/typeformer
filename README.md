@@ -53,6 +53,12 @@ cd build
 npx eslint -c .eslintrc.js ../BrightMetricsWeb/BrightMetricsWeb.BrightMetricsWebUI/UI-2/scripts/modules/ts/Brightmetrics/**/*.ts
 ```
 
+Handy way of finding fork point for a branch:
+
+```sh
+git merge-base --fork-point <base-branch>
+```
+
 ## TODO
 
 -   [x] Export all necessary things from JS.TS modules
