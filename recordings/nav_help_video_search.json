@@ -1,0 +1,66 @@
+{
+    "title": "Recording 9/26/2023 at 10:49:50 PM",
+    "steps": [
+        {
+            "type": "setViewport",
+            "width": 1160,
+            "height": 834,
+            "deviceScaleFactor": 1,
+            "isMobile": false,
+            "hasTouch": false,
+            "isLandscape": false
+        },
+        {
+            "type": "navigate",
+            "url": "https://beta.brightmetrics.com/UI-2/pages/MyAccount.aspx",
+            "assertedEvents": [
+                {
+                    "type": "navigation",
+                    "url": "https://beta.brightmetrics.com/UI-2/pages/MyAccount.aspx",
+                    "title": "My Account"
+                }
+            ]
+        },
+        {
+            "type": "click",
+            "target": "main",
+            "selectors": [["#ui-id-2"], ["xpath///*[@id=\"ui-id-2\"]"], ["pierce/#ui-id-2"], ["text/help"]],
+            "offsetY": 8.28125,
+            "offsetX": 11
+        },
+        {
+            "type": "change",
+            "value": "dashboard",
+            "selectors": [
+                ["aria/Search help content"],
+                ["#nav-dialog input"],
+                ["xpath///*[@id=\"nav-dialog\"]/div[1]/div/div[1]/div/input"],
+                ["pierce/#nav-dialog input"]
+            ],
+            "target": "main"
+        },
+        {
+            "type": "click",
+            "target": "main",
+            "selectors": [
+                ["li:nth-of-type(1) > div:nth-of-type(1) > div.c-help__card-title"],
+                ["xpath///*[@id=\"nav-dialog\"]/div[1]/div/div[2]/div[1]/div/div/ul/li[1]/div[1]/div[2]"],
+                ["pierce/li:nth-of-type(1) > div:nth-of-type(1) > div.c-help__card-title"],
+                ["text/Creating Dashboard"]
+            ],
+            "offsetY": 25.5078125,
+            "offsetX": 64
+        },
+        {
+            "type": "click",
+            "target": "main",
+            "selectors": [
+                ["span.c-video__close"],
+                ["xpath///*[@id=\"viewmodel_39\"]/div[1]/span[2]"],
+                ["pierce/span.c-video__close"]
+            ],
+            "offsetY": 11,
+            "offsetX": 14
+        }
+    ]
+}

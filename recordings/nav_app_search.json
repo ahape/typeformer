@@ -1,0 +1,48 @@
+{
+    "title": "Recording 9/26/2023 at 11:09:28 PM",
+    "steps": [
+        {
+            "type": "setViewport",
+            "width": 1160,
+            "height": 834,
+            "deviceScaleFactor": 1,
+            "isMobile": false,
+            "hasTouch": false,
+            "isLandscape": false
+        },
+        {
+            "type": "navigate",
+            "url": "https://beta.brightmetrics.com/UI-2/pages/MyAccount.aspx",
+            "assertedEvents": [
+                {
+                    "type": "navigation",
+                    "url": "https://beta.brightmetrics.com/UI-2/pages/MyAccount.aspx",
+                    "title": "My Account"
+                }
+            ]
+        },
+        {
+            "type": "click",
+            "target": "main",
+            "selectors": [["#app-search-icon"], ["xpath///*[@id=\"app-search-icon\"]"], ["pierce/#app-search-icon"]],
+            "offsetY": 12.28125,
+            "offsetX": 9
+        },
+        {
+            "type": "change",
+            "target": "main",
+            "selectors": ["aria/Search", "#app-search-input-box"],
+            "value": "user activity detail"
+        },
+        {
+            "type": "keyDown",
+            "target": "main",
+            "key": "Escape"
+        },
+        {
+            "type": "keyUp",
+            "target": "main",
+            "key": "Escape"
+        }
+    ]
+}

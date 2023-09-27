@@ -1,0 +1,32 @@
+{
+    "title": "Recording 9/26/2023 at 11:02:35 PM",
+    "steps": [
+        {
+            "type": "setViewport",
+            "width": 1160,
+            "height": 834,
+            "deviceScaleFactor": 1,
+            "isMobile": false,
+            "hasTouch": false,
+            "isLandscape": false
+        },
+        {
+            "type": "navigate",
+            "url": "https://beta.brightmetrics.com/UI-2/pages/MyAccount.aspx",
+            "assertedEvents": [
+                {
+                    "type": "navigation",
+                    "url": "https://beta.brightmetrics.com/UI-2/pages/MyAccount.aspx",
+                    "title": "My Account"
+                }
+            ]
+        },
+        {
+            "type": "click",
+            "target": "main",
+            "selectors": [["#ui-id-3"], ["xpath///*[@id=\"ui-id-3\"]"], ["pierce/#ui-id-3"]],
+            "offsetY": 8.28125,
+            "offsetX": 15
+        }
+    ]
+}

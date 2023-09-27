@@ -73,5 +73,11 @@ git merge-base --fork-point <base-branch>
 -   [x] Clean up comments and excess
 -   [x] Update npm modules
 -   [ ] Consolidate globals to one file
+-   [ ] Fix SonarLint issues
 -   [ ] Update msbuild
--   [ ] Create github action?
+
+## BUGS
+
+-   [x] SessionKeepalive not found
+-   [ ] Page error dialog root tooltip not found
+-   [ ] Dashboard: SignalR undefined

@@ -1,0 +1,32 @@
+{
+    "title": "nav_view_notifications",
+    "steps": [
+        {
+            "type": "setViewport",
+            "width": 1160,
+            "height": 834,
+            "deviceScaleFactor": 1,
+            "isMobile": false,
+            "hasTouch": false,
+            "isLandscape": false
+        },
+        {
+            "type": "navigate",
+            "url": "https://beta.brightmetrics.com/UI-2/pages/MyAccount.aspx",
+            "assertedEvents": [
+                {
+                    "type": "navigation",
+                    "url": "https://beta.brightmetrics.com/UI-2/pages/MyAccount.aspx",
+                    "title": "My Account"
+                }
+            ]
+        },
+        {
+            "type": "click",
+            "target": "main",
+            "selectors": ["#ui-id-4"],
+            "offsetX": 11,
+            "offsetY": 11.28125
+        }
+    ]
+}
