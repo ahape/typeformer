@@ -74,10 +74,12 @@ git merge-base --fork-point <base-branch>
 -   [x] Update npm modules
 -   [ ] Consolidate globals to one file
 -   [ ] Fix SonarLint issues
--   [ ] Update msbuild
+-   [ ] Move package.json to UI-2/
+-   [ ] Update csproj/msbuild (use npm to build files)
+-   [ ] Add back datadefinitions.ts?
 
 ## BUGS
 
 -   [x] SessionKeepalive not found
--   [ ] Page error dialog root tooltip not found
--   [ ] Dashboard: SignalR undefined
+-   [x] Page error dialog root tooltip not found
+-   [x] Dashboard: SignalR undefined
