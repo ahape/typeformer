@@ -72,9 +72,9 @@ git merge-base --fork-point <base-branch>
 -   [x] Get working with TSLint
 -   [x] Clean up comments and excess
 -   [x] Update npm modules
+-   [x] Move package.json to UI-2/
 -   [ ] Consolidate globals to one file
 -   [ ] Fix SonarLint issues
--   [ ] Move package.json to UI-2/
 -   [ ] Update csproj/msbuild (use npm to build files)
 -   [ ] Add back datadefinitions.ts?
 -   [ ] Add builder for datadefinitions
