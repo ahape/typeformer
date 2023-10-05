@@ -77,6 +77,8 @@ git merge-base --fork-point <base-branch>
 -   [ ] Move package.json to UI-2/
 -   [ ] Update csproj/msbuild (use npm to build files)
 -   [ ] Add back datadefinitions.ts?
+-   [ ] Add builder for datadefinitions
+-   [ ] Update build.cmd and rebuild.cmd
 
 ## BUGS
 
