@@ -39,11 +39,11 @@ export class RunTransformCommand extends Command {
             await run("git", "reset", "--hard", mergeBase); // Reset back to the merge base.
         }
 
-        await runNpmInstall();
+        await runNpmInstallFromBuildDir();
 
         await applyPatches(beforePatchesDir);
 
-        await runNpmInstall();
+        await runNpmInstallFromBuildDir();
 
         // Verify that we can process the code.
         // await generateDiagnostics();
@@ -124,11 +124,15 @@ async function generateDiagnostics() {
     await run("npx", "gulp", "generate-diagnostics");
 }
 
-async function runNpmInstall() {
+async function runNpmInstallFromBuildDir() {
     const pwd = await runHiddenWithOutput("pwd");
     cd(targetProjectPackageRoot);
-    await run("npm", "install", "--silent", "--no-package-lock");
+    await runNpmInstall();
     cd(pwd.stdout);
+}
+
+async function runNpmInstall() {
+    await run("npm", "install", "--silent", "--no-package-lock");
 }
 
 async function saveSuccessfulRunResults() {

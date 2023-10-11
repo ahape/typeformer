@@ -79,6 +79,7 @@ git merge-base --fork-point <base-branch>
 -   [ ] Add back datadefinitions.ts?
 -   [ ] Add builder for datadefinitions
 -   [ ] Update build.cmd and rebuild.cmd
+-   [ ] Remove rt-demo stuff from bundling?
 
 ## BUGS
 
