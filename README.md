@@ -73,13 +73,15 @@ git merge-base --fork-point <base-branch>
 -   [x] Clean up comments and excess
 -   [x] Update npm modules
 -   [x] Move package.json to UI-2/
--   [ ] Consolidate globals to one file
--   [ ] Fix SonarLint issues
--   [ ] Update csproj/msbuild (use npm to build files)
--   [ ] Add back datadefinitions.ts?
--   [ ] Add builder for datadefinitions
--   [ ] Update build.cmd and rebuild.cmd
--   [ ] Remove rt-demo stuff from bundling?
+-   [x] Consolidate globals to one file
+-   [x] Fix SonarLint issues
+-   [x] Update csproj/msbuild (use npm to build files)
+-   [x] Add back datadefinitions.ts?
+-   [x] Add builder for datadefinitions
+-   [x] Update build.cmd and rebuild.cmd
+-   [x] Remove rt-demo stuff from bundling? NO--too baked in.
+-   [ ] Check out what stuff can be removed
+-   [ ] Test stuff in app
 
 ## BUGS
 
