@@ -8,4 +8,4 @@ TSC_PATH=/Users/alanhape/Projects/libs/TypeScript/built/local/
 NODE=/opt/homebrew/bin/node
 UI2=/Users/alanhape/Projects/projects-development/BrightMetricsWeb/BrightMetricsWeb.BrightMetricsWebUI/UI-2/
 
-$NODE $TSC_PATH/tsc.js --diagnostics -p $UI2
+$NODE $TSC_PATH/tsc.js --extendedDiagnostics -p $UI2

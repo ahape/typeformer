@@ -131,3 +131,4 @@ dist
 
 patches-after/
 patches-before/
+.DS_Store

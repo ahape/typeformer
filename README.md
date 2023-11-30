@@ -31,32 +31,18 @@ Then in chrome:
 devtools://devtools/bundled/inspector.html?experiments=true&v8only=true&ws=127.0.0.1:7000/2df21a01-44ff-40c4-b6ff-1f839f81f9d6
 ```
 
-esbuild file that works:
-
-```js
-import * as esbuild from "../../../build/node_modules/esbuild/lib/main.js";
-
-await esbuild.build({
-    entryPoints: ["scripts/modules/_namespaces/Brightmetrics.ts"],
-    bundle: true,
-    target: "es2017",
-    format: "iife",
-    globalName: "Brightmetrics",
-    outfile: "scripts/build/brightmetrics.js",
-});
-```
-
-Running eslint:
-
-```sh
-cd build
-npx eslint -c .eslintrc.js ../BrightMetricsWeb/BrightMetricsWeb.BrightMetricsWebUI/UI-2/scripts/modules/ts/Brightmetrics/**/*.ts
-```
-
 Handy way of finding fork point for a branch:
 
 ```sh
 git merge-base --fork-point <base-branch>
+```
+
+When merging in the latest from development FIRST you should make sure you have a clean copy of the files (`git rm --cached -r .`)
+
+Sometimes you might need to run this command when applying patches one by one:
+
+```
+git am -3 --whitespace=fix --quoted-cr=nowarn --keep-cr <patch-file(s)>
 ```
 
 ## TODO
@@ -80,7 +66,8 @@ git merge-base --fork-point <base-branch>
 -   [x] Add builder for datadefinitions
 -   [x] Update build.cmd and rebuild.cmd
 -   [x] Remove rt-demo stuff from bundling? NO--too baked in.
--   [ ] Check out what stuff can be removed
+-   [x] Determine what eslint rules to apply
+-   [ ] Introduce await/async
 -   [ ] Test stuff in app
 
 ## BUGS
